@@ -7,16 +7,11 @@
 //
 
 #import "ViewController.h"
-#import <objc/runtime.h>
 #import "YMSocketUtils.h"
+#import "SocketDataUtil.h"
 
-// 后面NSString这是运行时能获取到的C语言的类型
-NSString * const TYPE_UINT8   = @"TC";// char是1个字节，8位
-NSString * const TYPE_UINT16   = @"TS";// short是2个字节，16位
-NSString * const TYPE_UINT32   = @"TI";
-NSString * const TYPE_UINT64   = @"TQ";
-NSString * const TYPE_STRING   = @"T@\"NSString\"";
-NSString * const TYPE_ARRAY   = @"T@\"NSArray\"";
+#import <objc/runtime.h>
+
 
 @interface ClientModel : NSObject
 
@@ -31,80 +26,85 @@ NSString * const TYPE_ARRAY   = @"T@\"NSArray\"";
 
 @interface ViewController ()
 
-@property (nonatomic, strong) NSMutableData *data;
-@property (nonatomic,strong)id object;
+@property (nonatomic,strong) NSMutableData *data;
+@property (nonatomic,strong) id object;
+
+@property (nonatomic,strong) NSMutableData *cacheData;
 
 @end
 
 @implementation ViewController
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _cacheData = [NSMutableData data];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    
     ClientModel * clientModel = [ClientModel new];
     clientModel.sceneId = 12;
     clientModel.message = @"大家好哦~";
+    
+    //封包
+    self.object = [SocketDataUtil dealwithData:_data withObj:clientModel];
+    
     // 创建了这个模型实例数据包之后，通过某种方法把它通过Socket发出去
-    [self RequestSpliceAttribute:clientModel];
+
 }
 
--(void)RequestSpliceAttribute:(id)obj{
-    if (obj == nil) {
-        self.object = _data;
-    }
-    unsigned int numIvars; //成员变量个数
+//拆包
+-(void) didReadData:(NSData *)data {
     
-    objc_property_t *propertys = class_copyPropertyList(NSClassFromString([NSString stringWithUTF8String:object_getClassName(obj)]), &numIvars);
+    //将接收到的数据保存到缓存数据中
+    [self.cacheData appendData:data];;
     
-    NSString *type = nil;
-    NSString *name = nil;
+    // 取出4-8位保存的数据长度，计算数据包长度
+    NSData *dataLength = [_cacheData subdataWithRange:NSMakeRange(4, 4)];
+    int dataLenInt = CFSwapInt32BigToHost(*(int*)([dataLength bytes]));
+    NSInteger lengthInteger = 0;
+    lengthInteger = (NSInteger)dataLenInt;
+    NSInteger complateDataLength = lengthInteger + 8;//算出一个包完整的长度(内容长度＋头长度)
+    NSLog(@"data = %ld  ----   length = %d  ",data.length,dataLenInt);
     
-    for (int i = 0; i < numIvars; i++) {
-        objc_property_t thisProperty = propertys[i];
+    //因为服务号和长度字节占8位，所以大于8才是一个正确的数据包
+    while (_cacheData.length > 8) {
         
-        name = [NSString stringWithUTF8String:property_getName(thisProperty)];
-        NSLog(@"%d.name:%@",i,name);
-        type = [[[NSString stringWithUTF8String:property_getAttributes(thisProperty)] componentsSeparatedByString:@","] objectAtIndex:0]; //获取成员变量的数据类型
-        NSLog(@"%d.type:%@",i,type);
-        
-        id propertyValue = [obj valueForKey:[(NSString *)name substringFromIndex:0]];
-        NSLog(@"%d.propertyValue:%@",i,propertyValue);
-        
-        NSLog(@"\n");
-        
-        if ([type isEqualToString:TYPE_UINT8]) {
-            uint8_t i = [propertyValue charValue];// 8位
-            [_data appendData:[YMSocketUtils byteFromUInt8:i]];
-        }else if([type isEqualToString:TYPE_STRING]){
-            NSData *data = [(NSString*)propertyValue \
-                            dataUsingEncoding:NSUTF8StringEncoding];// 通过utf-8转为data
+        if (_cacheData.length < complateDataLength) { //如果缓存中的数据长度小于包头长度 则继续拼接
             
-            // 用2个字节拼接字符串的长度拼接在字符串data之前
-            [_data appendData:[YMSocketUtils bytesFromUInt16:data.length]];
-            // 然后拼接字符串
-            [_data appendData:data];
+            /*
+            [[SingletonSocket sharedInstance].socket readDataWithTimeout:-1 tag:0];//socket读取数据
+             */
+            break;
             
         }else {
-            NSLog(@"RequestSpliceAttribute:未知类型");
-            NSAssert(YES, @"RequestSpliceAttribute:未知类型");
+            
+            //截取完整数据包
+            NSData *dataOne = [_cacheData subdataWithRange:NSMakeRange(0, complateDataLength)];
+            /*
+            [self handleTcpResponseData:dataOne];//处理包数据
+             NSData *contenData = [data subdataWithRange:NSMakeRange(8, data.length-8)];
+             // 取出4-8位保存的数据长度
+             
+             NSString *dataStr_8 = [[NSString alloc] initWithData:contenData encoding:NSUTF8StringEncoding];
+             */
+            NSData *contenData = [data subdataWithRange:NSMakeRange(8, data.length-8)];
+            // 取出4-8位保存的数据长度
+            
+            NSString *dataStr_8 = [[NSString alloc] initWithData:contenData encoding:NSUTF8StringEncoding];
+            
+            [_cacheData replaceBytesInRange:NSMakeRange(0, complateDataLength) withBytes:nil length:0];
+            
+            if (_cacheData.length > 8) {
+                
+                [self didReadData:nil];
+                
+            }
         }
     }
-    
-    // hy: 记得释放C语言的结构体指针
-    free(propertys);
-    self.object = _data;
-}
-
-
-#pragma mark - 懒加载
-- (NSMutableData *)data{
-    if (!_data) {
-        _data = @[].mutableCopy;
-    }
-    return _data;
 }
 
 @end
