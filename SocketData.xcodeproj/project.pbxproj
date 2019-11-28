@@ -14,7 +14,7 @@
 		070CBC6E2387E6170013D145 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 070CBC6C2387E6170013D145 /* LaunchScreen.storyboard */; };
 		070CBC712387E6170013D145 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 070CBC702387E6170013D145 /* main.m */; };
 		070CBC792387EEC80013D145 /* YMSocketUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 070CBC772387EEC80013D145 /* YMSocketUtils.m */; };
-		36EC7FA2238ADE0A00DCA426 /* SocketDataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EC7FA1238ADE0A00DCA426 /* SocketDataUtil.m */; };
+		36EC7FA2238ADE0A00DCA426 /* SocketDataShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EC7FA1238ADE0A00DCA426 /* SocketDataShareManager.m */; };
 		6DAB1531560B916480141B5E /* libPods-SocketData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2B075432D68FBAED08EF4A6 /* libPods-SocketData.a */; };
 /* End PBXBuildFile section */
 
@@ -31,8 +31,8 @@
 		070CBC702387E6170013D145 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		070CBC772387EEC80013D145 /* YMSocketUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YMSocketUtils.m; sourceTree = "<group>"; };
 		070CBC782387EEC80013D145 /* YMSocketUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMSocketUtils.h; sourceTree = "<group>"; };
-		36EC7FA0238ADE0A00DCA426 /* SocketDataUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SocketDataUtil.h; sourceTree = "<group>"; };
-		36EC7FA1238ADE0A00DCA426 /* SocketDataUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SocketDataUtil.m; sourceTree = "<group>"; };
+		36EC7FA0238ADE0A00DCA426 /* SocketDataShareManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SocketDataShareManager.h; sourceTree = "<group>"; };
+		36EC7FA1238ADE0A00DCA426 /* SocketDataShareManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SocketDataShareManager.m; sourceTree = "<group>"; };
 		598B9F6A179408C6EC2ACA71 /* Pods-SocketData.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocketData.release.xcconfig"; path = "Target Support Files/Pods-SocketData/Pods-SocketData.release.xcconfig"; sourceTree = "<group>"; };
 		9309A7DD512D837396CB055B /* Pods-SocketData.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocketData.debug.xcconfig"; path = "Target Support Files/Pods-SocketData/Pods-SocketData.debug.xcconfig"; sourceTree = "<group>"; };
 		A2B075432D68FBAED08EF4A6 /* libPods-SocketData.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SocketData.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,8 +75,8 @@
 				070CBC5F2387E6160013D145 /* AppDelegate.m */,
 				070CBC642387E6160013D145 /* ViewController.h */,
 				070CBC652387E6160013D145 /* ViewController.m */,
-				36EC7FA0238ADE0A00DCA426 /* SocketDataUtil.h */,
-				36EC7FA1238ADE0A00DCA426 /* SocketDataUtil.m */,
+				36EC7FA0238ADE0A00DCA426 /* SocketDataShareManager.h */,
+				36EC7FA1238ADE0A00DCA426 /* SocketDataShareManager.m */,
 				070CBC782387EEC80013D145 /* YMSocketUtils.h */,
 				070CBC772387EEC80013D145 /* YMSocketUtils.m */,
 				070CBC672387E6160013D145 /* Main.storyboard */,
@@ -102,7 +102,6 @@
 				9309A7DD512D837396CB055B /* Pods-SocketData.debug.xcconfig */,
 				598B9F6A179408C6EC2ACA71 /* Pods-SocketData.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -203,7 +202,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				070CBC662387E6160013D145 /* ViewController.m in Sources */,
-				36EC7FA2238ADE0A00DCA426 /* SocketDataUtil.m in Sources */,
+				36EC7FA2238ADE0A00DCA426 /* SocketDataShareManager.m in Sources */,
 				070CBC602387E6160013D145 /* AppDelegate.m in Sources */,
 				070CBC712387E6170013D145 /* main.m in Sources */,
 				070CBC792387EEC80013D145 /* YMSocketUtils.m in Sources */,

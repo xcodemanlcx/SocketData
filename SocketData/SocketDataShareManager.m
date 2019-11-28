@@ -1,19 +1,30 @@
 //
-//  SocketDataUtil.m
+//  SocketDataShareManager.m
 //  SocketData
 //
 //  Created by leichunxiang on 2019/11/24.
 //  Copyright © 2019 lcx. All rights reserved.
 //
 
-#import "SocketDataUtil.h"
-#import <objc/runtime.h>
-#import "YMSocketUtils.h"
+#import "SocketDataShareManager.h"
 
-@implementation SocketDataUtil
+static NSMutableData *cacheData;
+static NSUInteger totalLength;
+
+@implementation SocketDataShareManager
+
++(instancetype)shareInstance{
+    static SocketDataShareManager *shareInstance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        shareInstance = [SocketDataShareManager new];
+        cacheData = [NSMutableData new];
+    });
+    return shareInstance;
+}
 
 //封包
-+ (NSData *)packingWtihData:(NSData *)data type:(NSUInteger )type{
+- (NSData *)packingWtihData:(NSData *)data type:(NSUInteger )type{
     
     NSLog(@"封包：serviceID == %lul,contentData string == %@",type,[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
 
@@ -38,7 +49,7 @@
 }
 
 //拆包
-+ (void)unpackingData:(NSData *)data withCacheData:(NSMutableData *)cacheData socketReadDataBlock:(dispatch_block_t)socketReadDataBlock
+- (void)unpackingData:(NSData *)data  socketReadDataBlock:(dispatch_block_t)socketReadDataBlock
       socketHandleDataBlock:(void (^)(unsigned int serviceID,NSData *contentData))socketHandleDataBlock{
     // 缓存
     if (data) {
@@ -47,10 +58,11 @@
     //因为服务标识和长度字节占8位，所以大于8才是一个正确的数据包
     while (cacheData.length > 8) {
         // 包总长度（含包头）
-        NSData *totalLengthData = [cacheData subdataWithRange:NSMakeRange(4, 4)];
-        unsigned int totalLength = 0;
-        [totalLengthData getBytes:&totalLength length:4];
-        
+        if (totalLength == 0) {
+            NSData *totalLengthData = [cacheData subdataWithRange:NSMakeRange(4, 4)];
+            [totalLengthData getBytes:&totalLength length:4];
+        }
+ 
         /** 通常iOS比较常用的就是CFSwapInt16BigToHost、CFSwapInt32BigToHost，把大端转换为本机支持的模式，如果本机是大端了则不做任何改变
         unsigned int dataLenInt = CFSwapInt32BigToHost(*(unsigned int*)([totalLengthData bytes]));
          */
@@ -70,9 +82,10 @@
             if (socketHandleDataBlock) {
                 socketHandleDataBlock(serviceID,contenData);
             }
-            //5 清除已处理过的包数据
+            //5 清除已处理过的包数据,数据长度置0
             [cacheData replaceBytesInRange:NSMakeRange(0, totalLength) withBytes:nil length:0];
-            //6 进入while判断，是否需要继续处理多余包数据
+            totalLength = 0;
+            //6 进入while判断，是否需要继续拼接
         }
     }
     
@@ -81,6 +94,5 @@
         socketReadDataBlock();
     }
 }
-
 
 @end

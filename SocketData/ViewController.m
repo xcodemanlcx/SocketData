@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "SocketDataUtil.h"
+#import "SocketDataShareManager.h"
 
 @interface ViewController ()
 
@@ -26,18 +26,15 @@
 
     //拆包粘包参考网址
     //https://www.jianshu.com/p/1d290fd22595；
-    //socket+protocolbuffer:https://www.cnblogs.com/tandaxia/p/6718695.html
+  //socket+protocolbuffer:https://www.cnblogs.com/tandaxia/p/6718695.html
 }
 #pragma mark - 封包、启动通信
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
     //封包
-    _data = [SocketDataUtil packingWtihData:[@"会当水击三千里，自信人生二百年！雄光漫道真如铁，而今迈步从头越！" dataUsingEncoding:NSUTF8StringEncoding] type:1];
-    
-    //拆包缓存
-    _cacheData = [NSMutableData new];
-    
+    _data = [[SocketDataShareManager shareInstance]  packingWtihData:[@"会当水击三千里，自信人生二百年！雄光漫道真如铁，而今迈步从头越！" dataUsingEncoding:NSUTF8StringEncoding] type:1];
+    _sendeDataLength = 0;
     //发包
     [self sendRandomData:[self randomData]];
 }
@@ -54,7 +51,7 @@
 
 //随机包
 - (NSData *)randomData{
-    NSUInteger dataLength = arc4random()%100;
+    NSUInteger dataLength = arc4random()%8;
     if(dataLength == 0) dataLength = 1;
     if (dataLength > _data.length - _sendeDataLength) {
         dataLength = _data.length - _sendeDataLength;
@@ -70,7 +67,7 @@
     //记录已发送长度
     _sendeDataLength += data.length;
 
-    [SocketDataUtil unpackingData:data withCacheData:_cacheData socketReadDataBlock:^{
+    [[SocketDataShareManager shareInstance] unpackingData:data socketReadDataBlock:^{
        
         //长度不够，继续读取，拼接完整数据
         [self sendRandomData:[self randomData]];
