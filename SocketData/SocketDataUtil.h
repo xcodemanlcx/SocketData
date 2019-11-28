@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 +(NSMutableData *)dealwithData:(NSMutableData *)data withObj:(id)obj;
 
 //封包：
-+ (NSData *)packingWtihData:(NSData *)data type:(NSInteger )type;
++ (NSData *)packingWtihData:(NSData *)data type:(NSUInteger )type;
 
 //拆包
 + (void)unpackingData:(NSData *)data withCacheData:(NSMutableData *)cacheData socketReadDataBlock:(dispatch_block_t)socketReadDataBlock
