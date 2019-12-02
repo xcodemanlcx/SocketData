@@ -4,5 +4,6 @@
 #### 3参考网址
 * [iOS Socket封包、粘包、拆包处理](https://www.jianshu.com/p/9ea0f0c84990);
 * [拆包粘包参考网址](https://www.jianshu.com/p/1d290fd22595)；
+* [图片、文本、视频socket传输代码](https://github.com/TeeMoYan/Socket-);
 
 
