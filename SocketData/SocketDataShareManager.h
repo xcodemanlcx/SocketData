@@ -18,8 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSData *)packingWtihData:(NSData *)data type:(NSUInteger )type;
 
 //拆包
-- (void)unpackingData:(NSData *)data  socketReadDataBlock:(dispatch_block_t)socketReadDataBlock
-socketHandleDataBlock:(void (^)(unsigned int serviceID,NSData *contentData))socketHandleDataBlock;
+- (void)unpackingData:(NSData *)data socketHandleDataBlock:(void (^)(unsigned int serviceID,NSData *contentData))socketHandleDataBlock;
 
 @end
 

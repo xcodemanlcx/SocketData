@@ -49,7 +49,7 @@ static NSUInteger totalLength;
 }
 
 //拆包
-- (void)unpackingData:(NSData *)data  socketReadDataBlock:(dispatch_block_t)socketReadDataBlock
+- (void)unpackingData:(NSData *)data 
       socketHandleDataBlock:(void (^)(unsigned int serviceID,NSData *contentData))socketHandleDataBlock{
     // 缓存
     if (data) {
@@ -68,6 +68,7 @@ static NSUInteger totalLength;
          */
         
         if (cacheData.length < totalLength) {
+            // 长度不够，继续读取
             break;
         }else {
             //1 截取完整数据包
@@ -87,11 +88,6 @@ static NSUInteger totalLength;
             totalLength = 0;
             //6 进入while判断，是否需要继续拼接
         }
-    }
-    
-    //缓存包总长度不够， 则继续拼接
-    if(socketReadDataBlock){
-        socketReadDataBlock();
     }
 }
 

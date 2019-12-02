@@ -22,11 +22,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-
-    //拆包粘包参考网址
-    //https://www.jianshu.com/p/1d290fd22595；
-  //socket+protocolbuffer:https://www.cnblogs.com/tandaxia/p/6718695.html
 }
 #pragma mark - 封包、启动通信
 
@@ -67,17 +62,15 @@
     //记录已发送长度
     _sendeDataLength += data.length;
 
-    [[SocketDataShareManager shareInstance] unpackingData:data socketReadDataBlock:^{
-       
-        //长度不够，继续读取，拼接完整数据
-        [self sendRandomData:[self randomData]];
-        
-    } socketHandleDataBlock:^(unsigned int serviceID, NSData * _Nonnull contentData) {
+    //拆包
+    [[SocketDataShareManager shareInstance] unpackingData:data socketHandleDataBlock:^(unsigned int serviceID, NSData * _Nonnull contentData) {
        
         //长度足够，完整数据处理
         NSLog(@"拆包：serviceID == %ul,contentData string == %@",serviceID,[[NSString alloc] initWithData:contentData encoding:NSUTF8StringEncoding]);
-
     }];
+   
+    //长度不够，继续读取，拼接完整数据
+    [self sendRandomData:[self randomData]];
 }
 
 @end
