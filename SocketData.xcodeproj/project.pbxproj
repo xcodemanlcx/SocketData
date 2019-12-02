@@ -14,7 +14,6 @@
 		070CBC6E2387E6170013D145 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 070CBC6C2387E6170013D145 /* LaunchScreen.storyboard */; };
 		070CBC712387E6170013D145 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 070CBC702387E6170013D145 /* main.m */; };
 		36EC7FA2238ADE0A00DCA426 /* SocketDataShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EC7FA1238ADE0A00DCA426 /* SocketDataShareManager.m */; };
-		6DAB1531560B916480141B5E /* libPods-SocketData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2B075432D68FBAED08EF4A6 /* libPods-SocketData.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,9 +29,6 @@
 		070CBC702387E6170013D145 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		36EC7FA0238ADE0A00DCA426 /* SocketDataShareManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SocketDataShareManager.h; sourceTree = "<group>"; };
 		36EC7FA1238ADE0A00DCA426 /* SocketDataShareManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SocketDataShareManager.m; sourceTree = "<group>"; };
-		598B9F6A179408C6EC2ACA71 /* Pods-SocketData.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocketData.release.xcconfig"; path = "Target Support Files/Pods-SocketData/Pods-SocketData.release.xcconfig"; sourceTree = "<group>"; };
-		9309A7DD512D837396CB055B /* Pods-SocketData.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocketData.debug.xcconfig"; path = "Target Support Files/Pods-SocketData/Pods-SocketData.debug.xcconfig"; sourceTree = "<group>"; };
-		A2B075432D68FBAED08EF4A6 /* libPods-SocketData.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SocketData.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,7 +36,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DAB1531560B916480141B5E /* libPods-SocketData.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,8 +47,6 @@
 			children = (
 				070CBC5D2387E6160013D145 /* SocketData */,
 				070CBC5C2387E6160013D145 /* Products */,
-				EF44A303C20D5A59AF554D52 /* Pods */,
-				26A1605B01741ED5EF600D32 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -83,23 +76,6 @@
 			path = SocketData;
 			sourceTree = "<group>";
 		};
-		26A1605B01741ED5EF600D32 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				A2B075432D68FBAED08EF4A6 /* libPods-SocketData.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		EF44A303C20D5A59AF554D52 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				9309A7DD512D837396CB055B /* Pods-SocketData.debug.xcconfig */,
-				598B9F6A179408C6EC2ACA71 /* Pods-SocketData.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -107,7 +83,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 070CBC742387E6170013D145 /* Build configuration list for PBXNativeTarget "SocketData" */;
 			buildPhases = (
-				A0E63B0A16F667012711AD5C /* [CP] Check Pods Manifest.lock */,
 				070CBC572387E6160013D145 /* Sources */,
 				070CBC582387E6160013D145 /* Frameworks */,
 				070CBC592387E6160013D145 /* Resources */,
@@ -165,31 +140,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		A0E63B0A16F667012711AD5C /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SocketData-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		070CBC572387E6160013D145 /* Sources */ = {
@@ -337,10 +287,10 @@
 		};
 		070CBC752387E6170013D145 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9309A7DD512D837396CB055B /* Pods-SocketData.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SocketData/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -357,10 +307,10 @@
 		};
 		070CBC762387E6170013D145 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 598B9F6A179408C6EC2ACA71 /* Pods-SocketData.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SocketData/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
